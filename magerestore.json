@@ -1,9 +1,27 @@
 {
-  "repositories": [
-    {
-      "name": "sample",
+  "repositories": {
+    "sample": {
+      "description": "Sample backup server",
       "type": "ssh",
-      "uri": "backup.example.com:/var/backups/project/"
+      "host": "backup.example.com",
+      "user": "example",
+      "port": 22
     }
-  ]
+  },
+
+  "resources": {
+    "mysql": {
+      "repo": "sample",
+      "directory": "/var/backups/example/mysql",
+      "handler": "DatabaseImport",
+      "script_after": "echo 'hello world'"
+    },
+
+    "media": {
+      "repo": "sample",
+      "directory": "/var/backups/example/media/",
+      "handler": "MediaUnzip",
+      "script_after": "echo 'hello again'"
+    }
+  }
 }
