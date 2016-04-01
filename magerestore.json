@@ -1,0 +1,9 @@
+{
+  "repositories": [
+    {
+      "name": "sample",
+      "type": "ssh",
+      "uri": "backup.example.com:/var/backups/project/"
+    }
+  ]
+}
