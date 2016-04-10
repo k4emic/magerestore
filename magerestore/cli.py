@@ -1,17 +1,20 @@
 #!/usr/bin/env python3
 import click
-from magerestore.config import Config
+from .app import Magerestore
+
+
+pass_app = click.make_pass_decorator(Magerestore)
 
 
 @click.group()
 @click.pass_context
 def main(ctx):
-    ctx.config = Config().from_json('magerestore.json')
+    ctx.obj = Magerestore('magerestore.json')
 
 
 @click.command()
-@click.pass_context
-def restore(ctx):
+@pass_app
+def restore(app):
     pass
 
 
