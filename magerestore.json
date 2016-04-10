@@ -13,14 +13,14 @@
     "mysql": {
       "repo": "sample",
       "directory": "/var/backups/example/mysql",
-      "handler": "DatabaseImport",
-      "script_after": "echo 'hello world'"
+      "type": "mage_database",
+      "script_after": "echo 'hoello world'"
     },
 
     "media": {
       "repo": "sample",
       "directory": "/var/backups/example/media/",
-      "handler": "MediaUnzip",
+      "type": "media_zip",
       "script_after": "echo 'hello again'"
     }
   }
