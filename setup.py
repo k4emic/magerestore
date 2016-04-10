@@ -7,8 +7,9 @@ setup(
     install_requires=[
         'Click>=6'
     ],
-    entry_points='''
-        [console_scripts]
-        magerestore=magerestore.cli:main
-    ''',
+    entry_points={
+        'console_scripts': [
+            'magerestore=magerestore.cli:main'
+        ]
+    },
 )
