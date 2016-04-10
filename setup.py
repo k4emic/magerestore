@@ -9,6 +9,6 @@ setup(
     ],
     entry_points='''
         [console_scripts]
-        magerestore=cli:main
+        magerestore=magerestore.cli:main
     ''',
 )
