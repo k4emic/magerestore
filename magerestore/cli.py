@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
+# use absolute imports to allow pycharm to run/debug
 import click
 import sys
-from .app import Magerestore
+from magerestore.app import Magerestore
 
 
 pass_app = click.make_pass_decorator(Magerestore)
