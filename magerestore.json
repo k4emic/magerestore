@@ -13,15 +13,7 @@
     "mysql": {
       "repo": "sample",
       "directory": "/var/backups/example/mysql",
-      "type": "mage_database",
-      "script_after": "echo 'hoello world'"
-    },
-
-    "media": {
-      "repo": "sample",
-      "directory": "/var/backups/example/media/",
-      "type": "media_zip",
-      "script_after": "echo 'hello again'"
+      "type": "magento_database"
     }
   }
 }
