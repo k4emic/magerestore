@@ -46,7 +46,7 @@ class RepositoryFactoryTest(unittest.TestCase):
 
 class RepositoryManagerTest(unittest.TestCase):
 
-    def test_find(self):
+    def test_add_repo(self):
         repo_config = dict(
             type='mock'
         )

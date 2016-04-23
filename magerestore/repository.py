@@ -27,9 +27,3 @@ class RepositoryManager:
 
     def add_repo(self, name, repo_config):
         self.repositories[name] = self.factory.create(repo_config)
-
-    def find(self, name):
-        if name in self.repos:
-            return self.repos[name]
-        else:
-            return None
