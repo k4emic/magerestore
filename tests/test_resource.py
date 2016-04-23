@@ -1,10 +1,10 @@
 import unittest
-from magerestore.resource import Resource, ResourceFactory, ResourceManager
+from magerestore.resource import ResourceFactory, ResourceManager
 
 
-class MockResourceType(Resource):
-    def from_config(self, config):
-        pass
+class MockResourceType:
+    def __init__(self, config):
+        self.config = config
 
 
 ResourceFactory.add_type('mock', MockResourceType)
