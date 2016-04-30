@@ -2,7 +2,7 @@
   "repositories": {
     "sample": {
       "description": "Sample backup server",
-      "type": "ssh",
+      "type": "sftp",
       "host": "backup.example.com",
       "user": "example",
       "port": 22
@@ -11,8 +11,8 @@
 
   "resources": {
     "mysql": {
-      "repo": "sample",
-      "directory": "/var/backups/example/mysql",
+      "repository": "sample",
+      "path": "/var/magerestore/sample/daily.sql.gz",
       "type": "magento_database"
     }
   }
