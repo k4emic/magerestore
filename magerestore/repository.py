@@ -4,34 +4,31 @@ import tempfile
 
 
 class RepositoryFactory:
+    def __init__(self):
+        self.types = dict()
 
-    _types = dict()
+    def add_type(self, name, repository_cls):
+        self.types[name] = repository_cls
 
-    @classmethod
-    def add_type(cls, name, repository_cls):
-        cls._types[name] = repository_cls
-
-    @classmethod
-    def create(cls, config):
+    def create(self, config):
         repo_type = config['type']
-        if repo_type not in cls._types:
+        if repo_type not in self.types:
             raise KeyError("Not a valid repository type: `{type}`".format(type=repo_type))
 
-        return cls._types[repo_type](**config)
+        return self.types[repo_type](**config)
 
 
 class RepositoryManager:
-
-    factory = RepositoryFactory
-
-    def __init__(self, repo_config=None):
+    def __init__(self, repo_config):
+        self.repo_config = repo_config
         self.repositories = {}
-        if repo_config is not None:
-            for name, config in repo_config.items():
-                self.add_repo(name, config)
+        self.factory = RepositoryFactory()
 
-    def add_repo(self, name, repo_config):
-        self.repositories[name] = self.factory.create(repo_config)
+    def get_repo(self, repo_name):
+        if repo_name not in self.repositories:
+            self.repositories[repo_name] = self.factory.create(self.repo_config[repo_name])
+
+        return self.repositories[repo_name]
 
 
 class SFTPRepository:
@@ -92,5 +89,3 @@ class SFTPRepository:
 
     def get_temp_file(self):
         return tempfile.NamedTemporaryFile()
-
-RepositoryFactory.add_type('sftp', SFTPRepository)

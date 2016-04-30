@@ -3,42 +3,39 @@ import subprocess
 
 class ResourceManager:
     def __init__(self, resource_config, repo_manager):
+        self.resource_config = resource_config
         self.repo_manager = repo_manager
-        self.resources = {}
-        for name, node in resource_config.items():
-            self.add_resource(name, node)
+        self.resources = dict()
+        self.factory = ResourceFactory(self)
 
-    def add_resource(self, name, node_config):
-        self.resources[name] = ResourceFactory.create(node_config, self)
+    def get_resource(self, name):
+        if name not in self.resources:
+            self.resources[name] = self.factory.create(self.resource_config[name])
+
+        return self.resources[name]
 
     def names(self):
         """Get list of resource names"""
-        return sorted([name for name in self.resources])
-
-    def find(self, name):
-        if name in self.resources:
-            return self.resources[name]
-        else:
-            return None
+        return sorted([name for name in self.resource_config])
 
 
 class ResourceFactory:
-    _factories = {}
+    def __init__(self, resource_manager):
+        self.types = dict()
+        self.manager = resource_manager
 
-    @staticmethod
-    def add_type(name, type_class):
-        ResourceFactory._factories[name] = type_class
+    def add_type(self, name, type_class):
+        self.types[name] = type_class
 
-    @staticmethod
-    def create(node, resource_manager):
+    def create(self, node):
         node_type = node['type']
 
-        if node_type not in ResourceFactory._factories:
+        if node_type not in self.types:
             raise KeyError('No resource class defined for node type `{type}`'.format(type=node_type))
 
-        type_class = ResourceFactory._factories[node_type]
+        type_class = self.types[node_type]
 
-        return type_class(node, resource_manager)
+        return type_class(node, self.manager)
 
 
 class MagentoDatabaseResource:
@@ -55,5 +52,3 @@ class MagentoDatabaseResource:
 
     def cleanup(self):
         pass
-
-ResourceFactory.add_type('magento_database', MagentoDatabaseResource)
