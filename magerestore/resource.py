@@ -14,6 +14,9 @@ class ResourceManager:
 
         return self.resources[name]
 
+    def get_repo(self, repo_name):
+        return self.repo_manager.get_repo(repo_name)
+
     def names(self):
         """Get list of resource names"""
         return sorted([name for name in self.resource_config])
@@ -42,9 +45,11 @@ class MagentoDatabaseResource:
     def __init__(self, config, resource_manager):
         self.path = config['path']
         self.manager = resource_manager
+        self.repository = resource_manager.get_repo(config['repository'])
+        self.temp_file = None
 
-    def get_resource(self, progress_callback=None):
-        return self.repository.get_file(self.path, progress_callback)
+    def get_file(self, progress_callback=None):
+        self.temp_file = self.repository.get_file(self.path, progress_callback)
 
     def import_resource(self):
         args = ['n98-magerun.phar', 'db:import', '--drop', '--compression=gzip', '--drop', '--', self.localpath]

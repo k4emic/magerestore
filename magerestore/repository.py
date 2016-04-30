@@ -76,7 +76,10 @@ class SFTPRepository:
         for key in empty_keys:
             del connection_config[key]
 
-        ssh.connect(**connection_config)
+        try:
+            ssh.connect(**connection_config)
+        except Exception as e:
+            raise RepositoryConnectionError(connection_config, e)
         sftp = ssh.open_sftp()
         temp_file = self.get_temp_file()
         sftp.get(remote_file, temp_file.name, progress_callback)
@@ -89,3 +92,12 @@ class SFTPRepository:
 
     def get_temp_file(self):
         return tempfile.NamedTemporaryFile()
+
+
+class RepositoryConnectionError(Exception):
+    def __init__(self, connection_info, original_exception):
+        self.connection_info = connection_info
+        self.original_exception = original_exception
+
+    def __str__(self):
+        return "Unable to connect to repository: " + self.original_exception.__str__()
