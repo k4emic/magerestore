@@ -16,11 +16,3 @@ class Config:
     def from_dict(self, config_dict):
         self.repos = config_dict['repositories']
         self.resources = config_dict['resources']
-
-        self.link_repos_resources()
-
-        return True
-
-    def link_repos_resources(self):
-        for name, resource in self.resources.items():
-            resource['repo'] = self.repos[resource['repo']]

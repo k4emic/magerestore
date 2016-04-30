@@ -1,14 +1,15 @@
+import os
 import unittest
-from magerestore.repository import RepositoryFactory, RepositoryManager
+from magerestore.repository import RepositoryFactory, RepositoryManager, SFTPRepository
 
 
 class MockRepository:
-    def __init__(self, config):
+    def __init__(self, **config):
         self.config = config
 
 
 class MockRepositoryFoo:
-    def __init__(self, config):
+    def __init__(self, **config):
         self.config = config
 
 
@@ -55,3 +56,20 @@ class RepositoryManagerTest(unittest.TestCase):
         manager.add_repo('mock', repo_config)
         self.assertTrue('mock' in manager.repositories)
         self.assertEqual(manager.repositories['mock'], repo_config)
+
+
+class SFTPRepositoryTest(unittest.TestCase):
+
+    ENV_KEY_HOST = 'MAGERESTORE_TEST_SFTP_HOSTNAME'
+    ENV_KEY_FILEPATH = 'MAGERESTORE_TEST_SFTP_REMOTEFILE'
+
+    def test_get_file(self):
+        host = os.environ.get(self.ENV_KEY_HOST)
+        filepath = os.environ.get(self.ENV_KEY_FILEPATH)
+        if not host:
+            self.fail('No hostname specified for SFTP get_file test')
+
+        repo = SFTPRepository(host=host)
+        temp_file = repo.get_file(filepath)
+        size = os.path.getsize(temp_file.name)
+        self.assertGreater(size, 5000)

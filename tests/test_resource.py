@@ -3,7 +3,7 @@ from magerestore.resource import ResourceFactory, ResourceManager
 
 
 class MockResourceType:
-    def __init__(self, config):
+    def __init__(self, config, manager):
         self.config = config
 
 
@@ -13,7 +13,7 @@ ResourceFactory.add_type('mock', MockResourceType)
 class ResourceFactoryTest(unittest.TestCase):
     def test_add_type(self):
         node = dict(type='mock')
-        resource = ResourceFactory.create(node)
+        resource = ResourceFactory.create(node, None)
         self.assertTrue(isinstance(resource, MockResourceType))
 
 
@@ -25,7 +25,7 @@ class ResourceManagerTest(unittest.TestCase):
     )
 
     def setUp(self):
-        self.manager = ResourceManager(self.SAMPLE_NODES)
+        self.manager = ResourceManager(self.SAMPLE_NODES, None)
 
     def test_names(self):
         self.assertEqual(self.manager.names(), ['bar', 'foo'])
