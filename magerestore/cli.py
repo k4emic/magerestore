@@ -42,7 +42,9 @@ def main(ctx, debug, config):
 @click.argument('resource', callback=validate_resource_name)
 def restore(app, resource):
     resource = app.resource_manager.get_resource(resource)
+
     try:
+        resource.pre_check()
         resource.get_file(get_file_callback)
     except Exception as e:
         exception_handler(e)

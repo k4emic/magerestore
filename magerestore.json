@@ -15,6 +15,11 @@
       "path": "/var/magerestore/sample/daily.sql.gz",
       "type": "magento_database",
       "compression": "gzip"
+    },
+    "media": {
+      "repository": "sample",
+      "path": "/var/magerestore/sample/media_daily.zip",
+      "type": "magento_media"
     }
   }
 }

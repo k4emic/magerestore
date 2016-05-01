@@ -1,5 +1,5 @@
 from magerestore.config import Config
-from magerestore.resource import ResourceManager, MagentoDatabaseResource
+from magerestore.resource import ResourceManager, MagentoDatabaseResource, MagentoMediaResource
 from magerestore.repository import RepositoryManager, SFTPRepository
 
 
@@ -12,3 +12,4 @@ class Magerestore:
 
         self.resource_manager = ResourceManager(self.config.resources, self.repo_manager)
         self.resource_manager.factory.add_type('magento_database', MagentoDatabaseResource)
+        self.resource_manager.factory.add_type('magento_media', MagentoMediaResource)
