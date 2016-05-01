@@ -43,17 +43,34 @@ class ResourceFactory:
 
 class MagentoDatabaseResource:
     def __init__(self, config, resource_manager):
-        self.path = config['path']
         self.manager = resource_manager
         self.repository = resource_manager.get_repo(config['repository'])
         self.temp_file = None
 
+        self.compression = None
+        self.path = None
+        self.parse_config(config)
+
+    def parse_config(self, config):
+        if 'path' in config:
+            self.path = config['path']
+
+        if 'compression' in config:
+            self.compression = config['compression']
+
     def get_file(self, progress_callback=None):
         self.temp_file = self.repository.get_file(self.path, progress_callback)
 
-    def import_resource(self):
-        args = ['n98-magerun.phar', 'db:import', '--drop', '--compression=gzip', '--drop', '--', self.localpath]
-        proc = subprocess.Popen(args)
+    def unpack(self):
+        options = ['--drop']
 
-    def cleanup(self):
-        pass
+        # determine if compression is used
+        if self.compression:
+            options.append('--compression=' + self.compression)
+
+        cmd = ['n98-magerun.phar', 'db:import'] + options + ['--', self.temp_file.name]
+        subprocess.call(cmd)  # use .call since this shows the progress bar output correctly
+        """
+        running the db:import with PV installed makes the terminal ignore newlines. Subject to further investigation.
+        """
+        subprocess.call(['stty', 'sane'])

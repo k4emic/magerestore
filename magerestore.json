@@ -13,7 +13,8 @@
     "mysql": {
       "repository": "sample",
       "path": "/var/magerestore/sample/daily.sql.gz",
-      "type": "magento_database"
+      "type": "magento_database",
+      "compression": "gzip"
     }
   }
 }

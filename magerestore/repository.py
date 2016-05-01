@@ -91,7 +91,7 @@ class SFTPRepository:
         return temp_file
 
     def get_temp_file(self):
-        return tempfile.NamedTemporaryFile()
+        return tempfile.NamedTemporaryFile(delete=False)
 
 
 class RepositoryConnectionError(Exception):

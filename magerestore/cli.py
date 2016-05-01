@@ -47,8 +47,7 @@ def restore(app, resource):
     except Exception as e:
         exception_handler(e)
 
-    # resource.import_resource()
-    # resource.cleanup()
+    resource.unpack()
 
 
 def get_file_callback(got, total_size):
