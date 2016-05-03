@@ -8,13 +8,13 @@ Magerestore uses n98-magerun to handle some tasks, but are not required for all 
 
 setup(
     name='magerestore',
-    version='0.1',
+    version='0.1.1',
     description="Tool for restoring magento install from predefined backups",
     long_description=long_description,
     url="https://github.com/k4emic/magerestore",
     license="GPLv3",
     author="Mads Nielsen",
-    py_modules=['cli'],
+    packages=['magerestore'],
     install_requires=[
         'Click>=6', 'paramiko>=1.16'
     ],
